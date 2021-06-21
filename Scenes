@@ -1,0 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class Scenes : MonoBehaviour
+{
+    public Animator anim;
+    public SceneChange scenechange;
+    public bool finalScene;
+    // Start is called before the first frame update
+    void Start()
+    {
+        scenechange = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<SceneChange>();
+        anim = GetComponent<Animator>();
+        anim.SetBool("finalScene", finalScene);
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void NextSceneig()
+    {
+        scenechange.NextCutscene();
+        Destroy(gameObject);
+        Debug.Log("HI");
+    }
+
+    public void Game()
+    {
+        SceneManager.LoadScene(2);
+    }
+}
