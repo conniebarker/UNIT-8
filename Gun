@@ -1,0 +1,46 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Shoot : MonoBehaviour
+{
+    public float speed;
+    public GameObject Bullet;
+    public Transform firepoint;
+    public Transform yeet;
+    private Projectiles projectile;
+    public int damage;
+    public Transform placebulletneedstogo;
+    //int ammo
+    //int max ammo
+
+    void Start()
+    {
+        //ammo = max ammo;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            Shoot();
+        }
+        //check if player ispressing R (use abouve code) and if yes reload (set ammo to max ammo) plus make visual representation
+    }
+
+   
+    private void Shoot()
+    {
+        placebulletneedstogo.transform.position = (Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        
+        Debug.Log(placebulletneedstogo.transform.position);
+        // ammo -= 1;
+        GameObject bullet = (GameObject)Instantiate(Bullet, firepoint.position, firepoint.rotation);
+        Projectiles projectile = bullet.GetComponent<Projectiles>();
+        projectile.ChaseEnemy(placebulletneedstogo.transform.position);
+        projectile.GetDamage(damage);
+        
+    }
+}
