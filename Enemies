@@ -1,0 +1,95 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Enemies : MonoBehaviour
+{
+    public int damage;
+    public float speed;
+    public float jump;
+    public int health;
+    public float knockback;
+    public Rigidbody2D rb;
+    public int bulletDamage;
+    public Vector2 direction;
+
+    public bool StartTimer;
+    public bool jumpingZombie;
+    public float Countdown;
+    public Playercontroller playercontroller;
+   
+
+    void Start()
+    {
+        playercontroller = Playercontroller.instance;
+        Debug.Log(playercontroller);
+        rb = GetComponent<Rigidbody2D>();
+        if (jumpingZombie)
+        {
+            InvokeRepeating("Jump", 0.5f, 2.8f);
+            
+        }
+
+        
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (StartTimer == true)
+        {
+            if (Countdown<= 0)
+            {
+                StartTimer = false;
+                Countdown = 0.5f;
+            }
+            Countdown -= Time.deltaTime;
+            
+        }
+
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
+
+        if (StartTimer == false)
+        {
+            transform.Translate(direction * speed * Time.deltaTime);
+        }
+
+        //playerTakeDamage();
+    }
+    public void GetBulletDamage(int Damage)
+    {
+        bulletDamage = Damage;
+    }
+
+    public void Ahh()
+    {
+        health -= bulletDamage;
+        rb.velocity = new Vector2(knockback, rb.velocity.y); //zombie goes right
+        StartTimer = true;
+    }
+
+    public void Jump()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, jump);
+
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Player"))
+        {
+            Debug.Log(damage);
+            playercontroller.TakeDamage(damage);
+
+         
+            
+        }
+    }
+
+    
+    
+}
