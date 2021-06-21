@@ -1,0 +1,153 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class SceneChange : MonoBehaviour
+{
+    public GameObject[] cutscenepictures;
+    private int currentSceneNumber;
+    public Vector3 offset;
+    public static int totalScore;
+    private GameObject player;
+    private Playercontroller playercontroller;
+    public bool chest1;
+    public GameObject pausepanel;
+    public bool dontneedPlayer;
+    public bool chest2;
+    public bool shopp;
+    public bool finaldoor;
+    public bool bossdoor;
+    
+
+    public void NextCutscene()
+    {
+        Destroy(cutscenepictures[currentSceneNumber]);
+        currentSceneNumber += 1;
+        Instantiate(cutscenepictures[currentSceneNumber], this.transform.position + offset, this.transform.rotation);
+    }
+
+    public void Start()
+    {
+        if (!dontneedPlayer)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+            playercontroller = player.GetComponent<Playercontroller>();
+        }
+        
+
+        
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Toggle();
+        }
+    }
+
+    public void start()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    public void settings()
+    {
+        SceneManager.LoadScene(5);
+    }
+
+    public void quit()
+    {
+        Application.Quit();
+    }
+
+    public void level1()
+    {
+        SceneManager.LoadScene(2);
+    }
+
+    public void level2()
+    {
+        SceneManager.LoadScene(3);
+        setpp();
+    }
+    
+    public void menu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public void controls()
+    {
+        SceneManager.LoadScene(9);
+    }
+
+    public void shop()
+    {
+        SceneManager.LoadScene(10);
+
+        setpp();
+    }
+
+    private void OnMouseDown()
+    {
+        if (chest1)
+        {
+            SceneManager.LoadScene(8);
+        }
+
+        if (chest2)
+        {
+            SceneManager.LoadScene(4);
+        }
+
+        
+
+        if (shopp)
+        {
+            SceneManager.LoadScene(10);
+
+        }
+
+        if (finaldoor)
+        {
+            SceneManager.LoadScene(7);
+        }
+
+        if (bossdoor)
+        {
+            SceneManager.LoadScene(11);
+        }
+
+        setpp();
+    }
+
+    
+
+    void setpp()
+    {
+        playercontroller.meowmeow();
+
+    }
+
+    public void restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void Toggle()
+    {
+        pausepanel.SetActive(!pausepanel.activeSelf); //if on turns off and off turns on 
+
+        if (pausepanel.activeSelf)
+        {
+            Time.timeScale = 0; //freezes everything in the scene
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
+    }
+
+}
