@@ -1,0 +1,42 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class cmera : MonoBehaviour
+{
+    public Transform target;
+    public Vector3 offset;
+    public float smoothSpeed = 0.1f;
+    public float startoflevel;
+    public float endoflevel;
+
+    private void LateUpdate()
+    {
+        //Vector3 desiredPosition = transform.position = target.position + offset;
+        Vector3 desiredPosition = new Vector3(target.position.x, transform.position.y, transform.position.z);
+
+
+        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+        transform.position = smoothedPosition;
+
+        if (transform.position.x < startoflevel)
+        {
+            transform.position = new Vector3(startoflevel, transform.position.y, transform.position.z);
+            Debug.Log("ConKnee");
+        }
+        if (transform.position.x > endoflevel)
+        {
+            transform.position = new Vector3(endoflevel, transform.position.y, transform.position.z);
+        }
+    }
+    private void Update()
+    {
+        
+        
+    }
+
+    private void FixedUpdate()
+    {
+        
+    }
+}
