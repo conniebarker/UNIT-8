@@ -1,0 +1,65 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Projectiles : MonoBehaviour
+{
+    public float speed;
+    private Vector2 target;
+    public int damage;
+    private GameObject Enemy;
+    // Start is called before the first frame update
+    void Start()
+    {
+         
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        // Vector3 Direction = transform.position - ((Vector3)target);
+        Vector3 Direction = ((Vector3)target) - transform.position;
+        float distanceThisFrame = speed * Time.deltaTime;
+
+        if (Direction.magnitude <= distanceThisFrame)
+        {
+
+            Destroy(gameObject);
+            return;
+        }
+
+        transform.Translate(Direction.normalized * distanceThisFrame, Space.World);
+
+    }
+
+    public void ChaseEnemy(Vector2 bulletTarget)
+    {
+        target = bulletTarget;
+
+    }
+    public void GetDamage(int enemyDamage)
+    {
+        damage = enemyDamage;
+
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Zombie")
+        {
+            Enemy = collision.gameObject;
+            Debug.Log("yeetus");
+            Enemies enemy = Enemy.GetComponent<Enemies>();
+            enemy.GetBulletDamage(damage);
+            enemy.Ahh();
+        }
+        if (collision.gameObject.tag == "Zombie")
+        {
+            Debug.Log("woo");
+            Destroy(gameObject);
+        }
+    }
+
+    
+}
